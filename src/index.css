@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  Design System: Light-First Professional — Soft UI Evolution
+  Palette: Knowledge Base / Education Tool (ui-ux-pro-max)
+  Style: Soft UI Evolution (improved shadows, modern depth, WCAG AA+)
+  Typography: Inter (heading + body)
+  Spacing: 4/8dp rhythm
+*/
+
+@layer base {
+  :root {
+    /* Light theme — clean, airy, professional */
+    --background: 210 40% 98%;        /* #F8FAFC slate-50 */
+    --foreground: 222 47% 11%;        /* #1E293B slate-800 */
+
+    --card: 0 0% 100%;                /* #FFFFFF pure white */
+    --card-foreground: 222 47% 11%;   /* #1E293B */
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 221 83% 53%;           /* #3B82F6 blue-500 */
+    --primary-foreground: 0 0% 100%;  /* #FFFFFF */
+
+    --secondary: 210 40% 96%;         /* #F1F5F9 slate-100 */
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;             /* #F1F5F9 */
+    --muted-foreground: 215 16% 47%;  /* #64748B slate-500 */
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;         /* #EF4444 red-500 */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;            /* #E2E8F0 slate-200 */
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;              /* matches primary */
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 221 83% 53%;
+  }
+
+  .dark {
+    --background: 222 47% 8%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 8%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 217 91% 60%;
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 222 47% 8%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ============================================
+   Soft UI Evolution — Elevation System
+   4 levels of shadow depth (ui-ux-pro-max)
+   ============================================ */
+@layer utilities {
+  .shadow-soft-sm {
+    box-shadow:
+      0 1px 2px 0 rgb(0 0 0 / 0.04),
+      0 1px 3px 0 rgb(0 0 0 / 0.06);
+  }
+  .shadow-soft {
+    box-shadow:
+      0 2px 8px -2px rgb(0 0 0 / 0.06),
+      0 4px 16px -4px rgb(0 0 0 / 0.08);
+  }
+  .shadow-soft-md {
+    box-shadow:
+      0 4px 12px -4px rgb(0 0 0 / 0.08),
+      0 8px 24px -8px rgb(0 0 0 / 0.10);
+  }
+  .shadow-soft-lg {
+    box-shadow:
+      0 8px 24px -6px rgb(0 0 0 / 0.10),
+      0 16px 48px -12px rgb(0 0 0 / 0.12);
+  }
+
+  /* Micro-interaction: card hover lift (200ms ease-out per skill spec) */
+  .card-interactive {
+    transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  }
+  .card-interactive:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Subtle entrance animation */
+  .animate-fade-up {
+    animation: fadeUp 400ms ease-out both;
+  }
+  .animate-fade-up-delay-1 { animation-delay: 50ms; }
+  .animate-fade-up-delay-2 { animation-delay: 100ms; }
+  .animate-fade-up-delay-3 { animation-delay: 150ms; }
+
+  /* Gradient text utility */
+  .text-gradient-primary {
+    background: linear-gradient(135deg, hsl(221 83% 53%), hsl(250 83% 60%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .card-interactive:hover {
+    transform: none !important;
+  }
+}
