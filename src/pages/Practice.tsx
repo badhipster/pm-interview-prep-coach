@@ -2,7 +2,9 @@ import { useState } from "react";
 import { Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, supabaseConfigured } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
+import { AlertCircle } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { TypeSelector } from "@/components/interview/TypeSelector";
@@ -127,6 +129,50 @@ const Practice = () => {
       Restart
     </button>
   ) : null;
+
+  if (!supabaseConfigured) {
+    return (
+      <main className="min-h-dvh bg-background">
+        <SiteHeader />
+        <div className="mx-auto max-w-2xl px-6 py-16 sm:px-8 sm:py-24">
+          <section className="rounded-2xl border border-amber-200 bg-amber-50 p-8 shadow-soft animate-fade-up">
+            <div className="flex items-start gap-4">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
+                <AlertCircle className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <div>
+                <h1 className="text-xl font-bold text-foreground">
+                  Practice backend not connected
+                </h1>
+                <p className="mt-3 text-[15px] leading-relaxed text-foreground/80">
+                  This deploy is the portfolio version. The two Supabase Edge Functions that power
+                  question generation and scoring are not yet wired up to a Supabase project, so
+                  live sessions are temporarily unavailable.
+                </p>
+                <p className="mt-3 text-[15px] leading-relaxed text-foreground/80">
+                  The full design, scoring rubric, and reasoning behind every choice is on the{" "}
+                  <Link to="/method" className="font-semibold text-primary underline-offset-4 hover:underline">
+                    How it works
+                  </Link>{" "}
+                  page. Source code is on{" "}
+                  <a
+                    href="https://github.com/badhipster/pm-interview-prep-coach"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="font-semibold text-primary underline-offset-4 hover:underline"
+                  >
+                    GitHub
+                  </a>
+                  .
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+        <SiteFooter />
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-dvh bg-background">
