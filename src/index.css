@@ -151,6 +151,17 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Dot grid decorative background */
+  .bg-dot-grid {
+    background-image: radial-gradient(circle, hsl(var(--primary) / 0.08) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Gentle float for decorative elements */
+  .animate-float {
+    animation: float 5s ease-in-out infinite;
+  }
 }
 
 @keyframes fadeUp {
@@ -162,6 +173,11 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
 }
 
 /* Reduced motion preference */

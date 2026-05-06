@@ -119,17 +119,38 @@ const Landing = () => {
     <main className="min-h-dvh bg-background">
       <SiteHeader />
 
+      {/* Hero zone wrapper — carries the decorative background for hero + cards */}
+      <div className="relative overflow-hidden">
+        {/* Dot grid */}
+        <div className="pointer-events-none absolute inset-0 bg-dot-grid" aria-hidden="true" />
+        {/* Blue radial glow — center top */}
+        <div
+          className="pointer-events-none absolute left-1/2 -top-24 h-[600px] w-[900px] -translate-x-1/2 rounded-full bg-primary/10 blur-[120px]"
+          aria-hidden="true"
+        />
+        {/* Indigo glow — top right */}
+        <div
+          className="pointer-events-none absolute -right-32 -top-16 h-80 w-80 rounded-full bg-indigo-500/[0.07] blur-[80px]"
+          aria-hidden="true"
+        />
+        {/* Cyan whisper — bottom left */}
+        <div
+          className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-cyan-500/[0.05] blur-[80px]"
+          aria-hidden="true"
+        />
+
       {/* HERO */}
-      <section className="mx-auto max-w-5xl px-6 pt-16 pb-12 sm:px-8 sm:pt-24 sm:pb-16">
+      <section className="relative mx-auto max-w-5xl px-6 pt-16 pb-12 sm:px-8 sm:pt-24 sm:pb-16">
         <div className="mx-auto max-w-3xl text-center animate-fade-up">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 shadow-soft-sm">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-indigo-500/20 shadow-soft ring-1 ring-primary/20 animate-float">
             <Sparkles className="h-7 w-7 text-primary" aria-hidden="true" />
           </div>
           <h1
             className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl"
             style={{ textWrap: "balance" } as React.CSSProperties}
           >
-            Honest PM interview practice.
+            Honest PM interview{" "}
+            <span className="text-gradient-primary">practice.</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             The only AI coach that scores on PM cognitive skills, calibrates questions to specific
@@ -152,10 +173,10 @@ const Landing = () => {
       </section>
 
       {/* THREE DIFFERENTIATORS */}
-      <section className="mx-auto max-w-5xl px-6 pb-16 sm:px-8 sm:pb-24">
+      <section className="relative mx-auto max-w-5xl px-6 pb-16 sm:px-8 sm:pb-24">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-          <article className="rounded-2xl border border-border bg-card p-7 shadow-soft-sm card-interactive">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <article className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-7 shadow-soft-sm card-interactive">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/15 to-primary/20 text-primary ring-1 ring-primary/10">
               <Target className="h-5 w-5" aria-hidden="true" />
             </span>
             <h3 className="mt-5 text-base font-semibold text-foreground">
@@ -166,8 +187,8 @@ const Landing = () => {
               counts.
             </p>
           </article>
-          <article className="rounded-2xl border border-border bg-card p-7 shadow-soft-sm card-interactive">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <article className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-7 shadow-soft-sm card-interactive">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/15 to-violet-500/15 text-indigo-600 dark:text-indigo-400 ring-1 ring-indigo-500/10">
               <Building2 className="h-5 w-5" aria-hidden="true" />
             </span>
             <h3 className="mt-5 text-base font-semibold text-foreground">
@@ -178,8 +199,8 @@ const Landing = () => {
               hallucination.
             </p>
           </article>
-          <article className="rounded-2xl border border-border bg-card p-7 shadow-soft-sm card-interactive">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <article className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-7 shadow-soft-sm card-interactive">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-600 dark:text-cyan-400 ring-1 ring-cyan-500/10">
               <MessageCircleQuestion className="h-5 w-5" aria-hidden="true" />
             </span>
             <h3 className="mt-5 text-base font-semibold text-foreground">
@@ -192,6 +213,8 @@ const Landing = () => {
           </article>
         </div>
       </section>
+
+      </div>{/* end hero zone */}
 
       {/* COMPARISON */}
       <section className="border-t border-border/60 bg-secondary/40">
@@ -266,7 +289,8 @@ const Landing = () => {
       </section>
 
       {/* SCORING DIMENSIONS */}
-      <section className="mx-auto max-w-5xl px-6 py-16 sm:px-8 sm:py-24">
+      <section className="relative mx-auto max-w-5xl px-6 py-16 sm:px-8 sm:py-24 overflow-hidden">
+        <div className="pointer-events-none absolute -left-24 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-primary/[0.06] blur-[90px]" aria-hidden="true" />
         <div className="mb-10 max-w-2xl">
           <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             How the scoring works
@@ -282,9 +306,9 @@ const Landing = () => {
           {DIMENSIONS.map((d, i) => (
             <li
               key={d.name}
-              className="flex gap-4 rounded-2xl border border-border bg-card p-6 shadow-soft-sm"
+              className="flex gap-4 rounded-2xl border border-border bg-card p-6 shadow-soft-sm card-interactive"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-sm font-bold text-primary">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary/20 to-indigo-500/20 text-sm font-bold text-primary ring-1 ring-primary/15">
                 {i + 1}
               </span>
               <div>
@@ -295,7 +319,7 @@ const Landing = () => {
           ))}
         </ol>
 
-        <div className="mt-10 rounded-2xl border border-primary/20 bg-primary/[0.04] p-6">
+        <div className="mt-10 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/[0.06] to-indigo-500/[0.04] p-6">
           <p className="text-sm leading-relaxed text-foreground">
             <span className="font-semibold">Why this rubric and not "clarity, confidence, filler
             words"?</span>{" "}
@@ -313,8 +337,10 @@ const Landing = () => {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border/60 bg-secondary/40">
-        <div className="mx-auto max-w-3xl px-6 py-16 text-center sm:px-8 sm:py-20">
+      <section className="relative overflow-hidden border-t border-primary/10 bg-gradient-to-b from-primary/[0.05] via-primary/[0.03] to-secondary/40">
+        <div className="pointer-events-none absolute left-1/2 -bottom-20 h-72 w-[500px] -translate-x-1/2 rounded-full bg-primary/10 blur-[100px]" aria-hidden="true" />
+        <div className="pointer-events-none absolute right-0 top-0 h-48 w-48 rounded-full bg-indigo-500/[0.06] blur-[60px]" aria-hidden="true" />
+        <div className="relative mx-auto max-w-3xl px-6 py-16 text-center sm:px-8 sm:py-20">
           <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Ready to find out where you actually are?
           </h2>
