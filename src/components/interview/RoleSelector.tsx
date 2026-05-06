@@ -37,7 +37,7 @@ export function RoleSelector({ selectedRole, onSelect, disabled }: Props) {
             onClick={() => onSelect(role.id)}
             disabled={disabled}
             className={cn(
-              "group relative flex flex-col items-start gap-1 rounded-xl border p-4 text-left transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary/20",
+              "group relative flex flex-col items-start gap-1 rounded-xl border p-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
               disabled && "opacity-50 cursor-not-allowed",
               isSelected
                 ? "border-primary bg-primary/5 shadow-soft"

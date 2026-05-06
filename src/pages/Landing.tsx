@@ -6,9 +6,9 @@ import {
   CircleDashed,
   CircleDot,
   MessageCircleQuestion,
-  Sparkles,
   Target,
 } from "lucide-react";
+import { BrandIcon } from "@/components/BrandIcon";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -142,9 +142,7 @@ const Landing = () => {
       {/* HERO */}
       <section className="relative mx-auto max-w-5xl px-6 pt-16 pb-12 sm:px-8 sm:pt-24 sm:pb-16">
         <div className="mx-auto max-w-3xl text-center animate-fade-up">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-indigo-500/20 shadow-soft ring-1 ring-primary/20 animate-float">
-            <Sparkles className="h-7 w-7 text-primary" aria-hidden="true" />
-          </div>
+          <BrandIcon className="mx-auto mb-6" animate />
           <h1
             className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl"
             style={{ textWrap: "balance" } as React.CSSProperties}
@@ -175,7 +173,7 @@ const Landing = () => {
       {/* THREE DIFFERENTIATORS */}
       <section className="relative mx-auto max-w-5xl px-6 pb-16 sm:px-8 sm:pb-24">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-          <article className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-7 shadow-soft-sm card-interactive">
+          <article className="rounded-2xl border border-border card-glass p-7 shadow-soft-sm card-interactive">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/15 to-primary/20 text-primary ring-1 ring-primary/10">
               <Target className="h-5 w-5" aria-hidden="true" />
             </span>
@@ -187,7 +185,7 @@ const Landing = () => {
               counts.
             </p>
           </article>
-          <article className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-7 shadow-soft-sm card-interactive">
+          <article className="rounded-2xl border border-border card-glass p-7 shadow-soft-sm card-interactive">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/15 to-violet-500/15 text-indigo-600 dark:text-indigo-400 ring-1 ring-indigo-500/10">
               <Building2 className="h-5 w-5" aria-hidden="true" />
             </span>
@@ -199,7 +197,7 @@ const Landing = () => {
               hallucination.
             </p>
           </article>
-          <article className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-7 shadow-soft-sm card-interactive">
+          <article className="rounded-2xl border border-border card-glass p-7 shadow-soft-sm card-interactive">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-600 dark:text-cyan-400 ring-1 ring-cyan-500/10">
               <MessageCircleQuestion className="h-5 w-5" aria-hidden="true" />
             </span>

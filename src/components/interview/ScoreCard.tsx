@@ -40,10 +40,10 @@ export function ScoreCard({ interviewType, scores }: Props) {
             <article
               key={key}
               className={cn(
-                "rounded-xl border p-6 transition-all duration-200",
+                "rounded-xl border p-6 card-interactive",
                 scoreBorderClass(dim.score),
                 scoreBgClass(dim.score),
-                `animate-fade-up animate-fade-up-delay-${index % 4}`
+                `animate-fade-up animate-fade-up-delay-${(index % 3) + 1}`
               )}
             >
               <div className="flex items-start justify-between gap-3">

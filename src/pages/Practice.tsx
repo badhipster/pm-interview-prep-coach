@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Loader2, Sparkles } from "lucide-react";
+import { BrandIcon } from "@/components/BrandIcon";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { supabase, supabaseConfigured } from "@/integrations/supabase/client";
@@ -188,11 +189,10 @@ const Practice = () => {
         {step === "setup" && (
           <div className="space-y-14 animate-fade-up">
             <div className="text-center">
-              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 shadow-soft-sm">
-                <Sparkles className="h-7 w-7 text-primary" aria-hidden="true" />
-              </div>
+              <BrandIcon className="mx-auto mb-6" animate />
               <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl" style={{ textWrap: 'balance' } as React.CSSProperties}>
-                Set up your session.
+                Set up your{" "}
+                <span className="text-gradient-primary">session.</span>
               </h1>
               <p className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-muted-foreground sm:text-base">
                 Pick an interview type, target company, and role level. You'll get one calibrated
