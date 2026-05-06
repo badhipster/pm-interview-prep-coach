@@ -2,7 +2,7 @@
 
 > Honest AI feedback for PM interviews. Company-calibrated questions, scoring on five PM cognitive dimensions, and one follow-up probe like a real interviewer.
 
-**[Live demo →](#)**  ·  **[Case study](./CASE_STUDY.md)**  ·  **[Architecture](./ARCHITECTURE.md)**
+**[Live demo →](https://pm-interview-prep-coach.vercel.app)**  ·  **[Case study](./CASE_STUDY.md)**  ·  **[Architecture](./ARCHITECTURE.md)**
 
 <!-- TODO: Replace with 30-second demo GIF after recording -->
 
