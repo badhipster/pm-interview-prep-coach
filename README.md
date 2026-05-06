@@ -93,6 +93,6 @@ supabase/functions/
 
 ## Built by
 
-Abhishek Ranjan ([@arjha97](https://github.com/abhishekranjan)) as a portfolio project demonstrating PM judgment, AI-integrated UX, and disciplined scoping.
+Abhishek Ranjan ([@badhipster](https://github.com/badhipster)) as a portfolio project demonstrating PM judgment, AI-integrated UX, and disciplined scoping.
 
 The product itself is the case study — every visible element is a PM decision, documented inline at [/method](./src/pages/Method.tsx) and in the markdown files in this repo.

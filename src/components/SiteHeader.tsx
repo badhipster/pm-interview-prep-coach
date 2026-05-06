@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Github, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const SOURCE_URL = "https://github.com/abhishekranjan/pm-interview-prep-coach";
+const SOURCE_URL = "https://github.com/badhipster/pm-interview-prep-coach";
 
 const NAV = [
   { to: "/practice", label: "Practice" },
