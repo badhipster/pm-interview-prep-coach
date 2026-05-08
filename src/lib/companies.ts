@@ -1,6 +1,9 @@
 import type { Company } from "@/types/interview";
+import { companyIntelligence } from "./company-intelligence";
 
-export const companies: Company[] = [
+type BaseCompany = Omit<Company, "region" | "dimensionWeights" | "interviewStructure" | "hiringBarByRole" | "whatMakesThemDifferent">;
+
+const baseCompanies: BaseCompany[] = [
   {
     id: "swiggy",
     name: "Swiggy",
@@ -512,3 +515,30 @@ export const companies: Company[] = [
     }
   }
 ];
+
+// Merge base company data with intelligence layer
+const defaultIntel = {
+  region: "global" as const,
+  dimensionWeights: { problemFraming: 3, userEmpathy: 3, prioritizationRationale: 3, metricDefinition: 3, tradeoffAwareness: 3 },
+  interviewStructure: "Standard PM interview loop",
+  hiringBarByRole: { APM: "Avg 2.5+", PM: "Avg 3.0+", SPM: "Avg 3.5+" },
+  whatMakesThemDifferent: "",
+};
+
+export const companies: Company[] = baseCompanies.map((base) => ({
+  ...base,
+  ...defaultIntel,
+  ...(companyIntelligence[base.id] ?? {}),
+}));
+
+export function getIndianCompanies(): Company[] {
+  return companies.filter(c => c.region === "india");
+}
+
+export function getGlobalCompanies(): Company[] {
+  return companies.filter(c => c.region === "global");
+}
+
+export function getCompanyById(id: string): Company | undefined {
+  return companies.find(c => c.id === id || c.name === id);
+}
