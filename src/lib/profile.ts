@@ -103,16 +103,19 @@ export function getWeakestDimension(): keyof Scores | null {
   const avgs = getDimensionAverages();
   if (!avgs) return null;
 
-  let weakest: keyof Scores = DIMENSION_KEYS[0];
   let lowest = Infinity;
+  let tiedDimensions: (keyof Scores)[] = [];
 
   for (const dim of DIMENSION_KEYS) {
     if (avgs[dim] < lowest) {
       lowest = avgs[dim];
-      weakest = dim;
+      tiedDimensions = [dim];
+    } else if (avgs[dim] === lowest) {
+      tiedDimensions.push(dim);
     }
   }
-  return weakest;
+  
+  return tiedDimensions[Math.floor(Math.random() * tiedDimensions.length)];
 }
 
 export function getStrongestDimension(): keyof Scores | null {
