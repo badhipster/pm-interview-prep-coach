@@ -5,14 +5,17 @@ import {
   CircleCheck,
   CircleDashed,
   CircleDot,
-  MessageCircleQuestion,
+  Gauge,
+  Crosshair,
+  Mic,
+  TrendingUp,
   Target,
 } from "lucide-react";
 import { BrandIcon } from "@/components/BrandIcon";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { companies } from "@/lib/companies";
+import { companies, getIndianCompanies, getGlobalCompanies } from "@/lib/companies";
 
 const DIMENSIONS = [
   {
@@ -74,27 +77,35 @@ const COMPARISON: {
   },
   {
     dimension: "Company-calibrated questions",
-    this: { mark: "yes", label: "15 curated companies" },
+    this: { mark: "yes", label: "15 companies, weighted" },
     chatgpt: { mark: "no", label: "DIY prompt" },
     exponent: { mark: "partial", label: "Limited" },
     igao: { mark: "yes", label: "Insider-led" },
     huru: { mark: "no", label: "Generic" },
   },
   {
-    dimension: "Follow-up probe like a real interviewer",
-    this: { mark: "yes", label: "One adaptive probe" },
+    dimension: "Company-specific hiring bar",
+    this: { mark: "yes", label: "Dimension weights + bar" },
+    chatgpt: { mark: "no", label: "No bar" },
+    exponent: { mark: "partial", label: "Peer opinion" },
+    igao: { mark: "yes", label: "Insider calibrated" },
+    huru: { mark: "no", label: "No bar" },
+  },
+  {
+    dimension: "Follow-up probes",
+    this: { mark: "yes", label: "Up to 3 adaptive" },
     chatgpt: { mark: "no", label: "No probe" },
     exponent: { mark: "na", label: "Peer-dependent" },
     igao: { mark: "yes", label: "Human probe" },
     huru: { mark: "no", label: "No probe" },
   },
   {
-    dimension: "Honest, not encouragement-biased",
-    this: { mark: "yes", label: "By design" },
-    chatgpt: { mark: "no", label: "Encouragement-biased" },
-    exponent: { mark: "partial", label: "Peer-dependent" },
-    igao: { mark: "yes", label: "Critical by default" },
-    huru: { mark: "no", label: "Encouragement-biased" },
+    dimension: "Session memory & trends",
+    this: { mark: "yes", label: "localStorage profile" },
+    chatgpt: { mark: "no", label: "Stateless" },
+    exponent: { mark: "no", label: "No analytics" },
+    igao: { mark: "partial", label: "Manual notes" },
+    huru: { mark: "partial", label: "Basic history" },
   },
   {
     dimension: "Async, no scheduling",
@@ -114,16 +125,43 @@ const COMPARISON: {
   },
 ];
 
+const MODES = [
+  {
+    icon: Gauge,
+    name: "Calibrate",
+    time: "~5 min",
+    desc: "One question, scored on all 5 dimensions. See where you stand for a specific company.",
+    color: "from-blue-500/15 to-primary/20 text-primary ring-primary/10",
+  },
+  {
+    icon: Crosshair,
+    name: "Drill",
+    time: "~3 min/rep",
+    desc: "Pick your weakest dimension. Get targeted questions. Score on that dimension only. Rapid-fire.",
+    color: "from-amber-500/15 to-orange-500/20 text-amber-600 ring-amber-500/10",
+  },
+  {
+    icon: Mic,
+    name: "Mock",
+    time: "~15 min",
+    desc: "Full interview simulation. Question, answer, 2-3 adaptive probes, and a company-calibrated debrief.",
+    color: "from-emerald-500/15 to-green-500/20 text-emerald-600 ring-emerald-500/10",
+  },
+];
+
+const indiaCount = getIndianCompanies().length;
+const globalCount = getGlobalCompanies().length;
+
 const Landing = () => {
   return (
     <main className="min-h-dvh bg-background">
       <SiteHeader />
 
-      {/* Hero zone wrapper — carries the decorative background for hero + cards */}
+      {/* Hero zone wrapper */}
       <div className="relative overflow-hidden">
         {/* Dot grid */}
         <div className="pointer-events-none absolute inset-0 bg-dot-grid" aria-hidden="true" />
-        {/* Blue radial glow — center top */}
+        {/* Blue radial glow */}
         <div
           className="pointer-events-none absolute left-1/2 -top-24 h-[600px] w-[900px] -translate-x-1/2 rounded-full bg-primary/10 blur-[120px]"
           aria-hidden="true"
@@ -139,83 +177,132 @@ const Landing = () => {
           aria-hidden="true"
         />
 
-      {/* HERO */}
-      <section className="relative mx-auto max-w-5xl px-6 pt-16 pb-12 sm:px-8 sm:pt-24 sm:pb-16">
-        <div className="mx-auto max-w-3xl text-center animate-fade-up">
-          <BrandIcon className="mx-auto mb-6" animate />
-          <h1
-            className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl"
-            style={{ textWrap: "balance" } as React.CSSProperties}
-          >
-            Honest PM interview{" "}
-            <span className="text-gradient-primary">practice.</span>
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            The only AI coach that scores on PM cognitive skills, calibrates questions to specific
-            companies, and probes you with a follow-up like a real interviewer.
-          </p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button asChild size="lg" className="h-12 min-w-[220px] text-[15px] font-semibold shadow-soft transition-shadow hover:shadow-soft-md">
-              <Link to="/practice">
-                Start a session <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-              </Link>
-            </Button>
-            <Button asChild variant="ghost" size="lg" className="h-12 text-[15px] font-medium">
-              <Link to="/method">How this was built</Link>
-            </Button>
+        {/* HERO */}
+        <section className="relative mx-auto max-w-5xl px-6 pt-16 pb-12 sm:px-8 sm:pt-24 sm:pb-16">
+          <div className="mx-auto max-w-3xl text-center animate-fade-up">
+            <BrandIcon className="mx-auto mb-6" animate />
+            <h1
+              className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl"
+              style={{ textWrap: "balance" } as React.CSSProperties}
+            >
+              Know exactly where you{" "}
+              <span className="text-gradient-primary">stand.</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              The PM diagnostic engine that scores on cognitive skills, calibrates to {companies.length} company
+              hiring bars, and tracks your progress across sessions — built for India's PM interview market.
+            </p>
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Button asChild size="lg" className="h-12 min-w-[220px] text-[15px] font-semibold shadow-soft transition-shadow hover:shadow-soft-md">
+                <Link to="/practice">
+                  Start calibrating <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+              <Button asChild variant="ghost" size="lg" className="h-12 text-[15px] font-medium">
+                <Link to="/method">How this was built</Link>
+              </Button>
+            </div>
+            <p className="mt-6 text-xs text-muted-foreground">
+              No signup. No paywall. Session data stays in your browser.
+            </p>
           </div>
-          <p className="mt-6 text-xs text-muted-foreground">
-            No signup. No paywall. ~10 minutes per session.
-          </p>
-        </div>
-      </section>
+        </section>
 
-      {/* THREE DIFFERENTIATORS */}
-      <section className="relative mx-auto max-w-5xl px-6 pb-16 sm:px-8 sm:pb-24">
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-          <article className="rounded-2xl border border-border card-glass p-7 shadow-soft-sm card-interactive">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/15 to-primary/20 text-primary ring-1 ring-primary/10">
-              <Target className="h-5 w-5" aria-hidden="true" />
-            </span>
-            <h3 className="mt-5 text-base font-semibold text-foreground">
-              5 PM cognitive dimensions
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Problem framing, user empathy, prioritization, metrics, trade-offs. Not filler-word
-              counts.
-            </p>
-          </article>
-          <article className="rounded-2xl border border-border card-glass p-7 shadow-soft-sm card-interactive">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/15 to-violet-500/15 text-indigo-600 dark:text-indigo-400 ring-1 ring-indigo-500/10">
-              <Building2 className="h-5 w-5" aria-hidden="true" />
-            </span>
-            <h3 className="mt-5 text-base font-semibold text-foreground">
-              Calibrated to {companies.length} companies
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Razorpay, PhonePe, CRED, Swiggy, Meta, Stripe, and more. A curated list controls for
-              hallucination.
-            </p>
-          </article>
-          <article className="rounded-2xl border border-border card-glass p-7 shadow-soft-sm card-interactive">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-600 dark:text-cyan-400 ring-1 ring-cyan-500/10">
-              <MessageCircleQuestion className="h-5 w-5" aria-hidden="true" />
-            </span>
-            <h3 className="mt-5 text-base font-semibold text-foreground">
-              One follow-up probe
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Real interviews probe. After your scores, you get one adaptive follow-up. No other AI
-              coach does this.
-            </p>
-          </article>
-        </div>
-      </section>
+        {/* THREE MODES */}
+        <section className="relative mx-auto max-w-5xl px-6 pb-16 sm:px-8 sm:pb-24">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+            {MODES.map(mode => (
+              <article key={mode.name} className="rounded-2xl border border-border card-glass p-7 shadow-soft-sm card-interactive">
+                <span className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${mode.color} ring-1`}>
+                  <mode.icon className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <h3 className="mt-5 text-base font-semibold text-foreground">
+                  {mode.name}
+                </h3>
+                <p className="mt-0.5 text-xs font-medium text-primary">{mode.time}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {mode.desc}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
 
       </div>{/* end hero zone */}
 
-      {/* COMPARISON */}
+      {/* COMPANY INTELLIGENCE */}
       <section className="border-t border-border/60 bg-secondary/40">
+        <div className="mx-auto max-w-5xl px-6 py-16 sm:px-8 sm:py-24">
+          <div className="mb-10 max-w-2xl">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              Not generic. Company-calibrated.
+            </h2>
+            <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+              Each company has proprietary dimension weights reflecting what they actually test for.
+              Your score is evaluated against their specific hiring bar — not a generic rubric.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {/* India Tech */}
+            <div className="rounded-2xl border border-border bg-card p-6 shadow-soft-sm">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="inline-block h-2.5 w-2.5 rounded-full bg-orange-500" />
+                <h3 className="text-sm font-semibold text-foreground">India Tech</h3>
+                <span className="text-xs text-muted-foreground">({indiaCount} companies)</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {getIndianCompanies().map(c => (
+                  <span key={c.id} className="rounded-lg bg-secondary px-2.5 py-1 text-xs font-medium text-foreground">
+                    {c.name}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-4 text-xs text-muted-foreground leading-relaxed">
+                Each company includes interview structure, hiring bar by role (APM/PM/SPM), and dimension weights calibrated to Indian PM interview patterns.
+              </p>
+            </div>
+
+            {/* Global Tech */}
+            <div className="rounded-2xl border border-border bg-card p-6 shadow-soft-sm">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="inline-block h-2.5 w-2.5 rounded-full bg-blue-500" />
+                <h3 className="text-sm font-semibold text-foreground">Global Tech</h3>
+                <span className="text-xs text-muted-foreground">({globalCount} companies)</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {getGlobalCompanies().map(c => (
+                  <span key={c.id} className="rounded-lg bg-secondary px-2.5 py-1 text-xs font-medium text-foreground">
+                    {c.name}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-4 text-xs text-muted-foreground leading-relaxed">
+                Global companies with India hiring presence. Same calibration depth — dimension weights, hiring bars, and interview structure metadata.
+              </p>
+            </div>
+          </div>
+
+          {/* What's in the metadata */}
+          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {[
+              { icon: Target, label: "Dimension weights", detail: "Per-company scoring calibration" },
+              { icon: Building2, label: "Hiring bar", detail: "APM / PM / SPM thresholds" },
+              { icon: TrendingUp, label: "Session memory", detail: "Tracks trends across sessions" },
+              { icon: Crosshair, label: "Weakness targeting", detail: "Drill mode auto-suggests" },
+            ].map(item => (
+              <div key={item.label} className="rounded-xl border border-border bg-card p-4 shadow-soft-sm">
+                <item.icon className="h-4 w-4 text-primary mb-2" />
+                <p className="text-sm font-semibold text-foreground">{item.label}</p>
+                <p className="text-xs text-muted-foreground">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* COMPARISON */}
+      <section className="border-t border-border/60">
         <div className="mx-auto max-w-5xl px-6 py-16 sm:px-8 sm:py-24">
           <div className="mb-10 max-w-2xl">
             <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
@@ -276,13 +363,6 @@ const Landing = () => {
               </tbody>
             </table>
           </div>
-
-          <p className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-            <span className="font-medium text-foreground">The wedge:</span> a candidate who knows
-            their target company, wants a question calibrated to it, wants feedback on PM-specific
-            dimensions, and wants one follow-up probe — has no other tool that does all four in one
-            session without paying for human coaching.
-          </p>
         </div>
       </section>
 
@@ -291,12 +371,12 @@ const Landing = () => {
         <div className="pointer-events-none absolute -left-24 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-primary/[0.06] blur-[90px]" aria-hidden="true" />
         <div className="mb-10 max-w-2xl">
           <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            How the scoring works
+            The five dimensions we score
           </h2>
           <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-            Every answer is scored on five dimensions a real PM interviewer evaluates. Each score is
-            on a 1-5 scale with a written reason. A 3 means generic. 4s and 5s are earned, not
-            given.
+            Every answer is scored on five cognitive dimensions real PM interviewers evaluate.
+            Each company weights these dimensions differently — CRED cares most about trade-offs,
+            Razorpay weights metrics heavily.
           </p>
         </div>
 
@@ -340,11 +420,11 @@ const Landing = () => {
         <div className="pointer-events-none absolute right-0 top-0 h-48 w-48 rounded-full bg-indigo-500/[0.06] blur-[60px]" aria-hidden="true" />
         <div className="relative mx-auto max-w-3xl px-6 py-16 text-center sm:px-8 sm:py-20">
           <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            Ready to find out where you actually are?
+            Ready to find out where you actually stand?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
-            Pick a company. Answer one question. See where you scored low and one follow-up probe.
-            That's the whole session.
+            Choose a mode. Pick your target company. Get scored against their actual hiring bar.
+            Three sessions unlock your calibration report.
           </p>
           <Button
             asChild
@@ -352,7 +432,7 @@ const Landing = () => {
             className="mt-8 h-12 min-w-[220px] text-[15px] font-semibold shadow-soft transition-shadow hover:shadow-soft-md"
           >
             <Link to="/practice">
-              Start a session <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              Start calibrating <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </Link>
           </Button>
         </div>

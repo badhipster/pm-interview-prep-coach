@@ -45,16 +45,53 @@ const Method = () => {
             className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
             style={{ textWrap: "balance" } as React.CSSProperties}
           >
-            The PM reasoning behind every design choice.
+            A diagnostic engine, not a practice tool.
           </h1>
           <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground sm:text-base">
-            This page is the case study, written for someone who is using the product right now. It
-            explains what was built, what was deliberately left out, and why.
+            This page is the case study. It explains the product architecture, the intelligence
+            layer, and every deliberate design decision — written for someone evaluating this as
+            a PM portfolio piece.
           </p>
         </header>
 
         {/* SECTIONS */}
-        <Section number="01" title="Why these five dimensions">
+        <Section number="01" title="The core thesis">
+          <p>
+            Most PM interview prep tools treat sessions as{" "}
+            <span className="font-medium text-foreground">disposable</span>. You answer a question,
+            get a score, and that's it. No memory. No longitudinal insight. No connection between
+            session 1 and session 10.
+          </p>
+          <p>
+            This tool treats PM interview prep as a{" "}
+            <span className="font-medium text-foreground">diagnostic arc</span>. Every session
+            contributes to a persistent profile that reveals patterns — which dimensions are
+            consistently weak, whether you're improving, and where you stand relative to a
+            specific company's hiring bar.
+          </p>
+          <p>
+            The architecture is built around three modes that serve different moments in a
+            candidate's prep journey:
+          </p>
+          <ul className="mt-2 space-y-3 pl-1">
+            <li>
+              <span className="font-semibold text-foreground">Calibrate (~5 min).</span> One question,
+              scored on all five dimensions. The diagnostic baseline. "Where do I stand right now?"
+            </li>
+            <li>
+              <span className="font-semibold text-foreground">Drill (~3 min/rep).</span> Pick your
+              weakest dimension, get targeted questions that test only that skill. Rapid-fire
+              repetition. "How do I fix my specific weakness?"
+            </li>
+            <li>
+              <span className="font-semibold text-foreground">Mock (~15 min).</span> Full interview
+              simulation with 2-3 adaptive follow-up probes and a detailed debrief with company-calibrated
+              bar assessment. "Am I ready for this specific company?"
+            </li>
+          </ul>
+        </Section>
+
+        <Section number="02" title="Why these five dimensions">
           <p>
             Generic AI interview coaches grade you on{" "}
             <span className="font-medium text-foreground">clarity, confidence, and filler-word
@@ -97,12 +134,36 @@ const Method = () => {
           </p>
         </Section>
 
-        <Section number="02" title="How company calibration works (and why it's curated)">
+        <Section number="03" title="The intelligence layer: company-calibrated scoring">
           <p>
-            Each company in the picker has structured context attached: market positioning, current
-            tensions, interview culture, role-level expectations, and three sample questions per
-            interview type. The model uses this context to generate questions that sound like the
-            company's actual interview style — not a generic "design a product" prompt.
+            <span className="font-semibold text-foreground">The key differentiator is not the
+            questions — it's the scoring calibration.</span> Every company in the system has a set
+            of proprietary metadata that influences how the LLM evaluates your answer:
+          </p>
+          <ul className="mt-2 space-y-3 pl-1">
+            <li>
+              <span className="font-semibold text-foreground">Dimension Weights (1-5 per dimension).</span>{" "}
+              CRED weights Trade-off Awareness at 5/5 (Critical) because their interviews are
+              design-deep and expect you to articulate what you're sacrificing. Razorpay weights
+              Metric Definition at 5/5 because they run a data-heavy infrastructure product.
+            </li>
+            <li>
+              <span className="font-semibold text-foreground">Hiring Bar by Role.</span>{" "}
+              The expected average score that constitutes "meeting the bar" at APM, PM, and SPM level.
+              An SPM candidate at Google scoring 3/5 avg may be "borderline", while the same score at
+              a Series B startup is "above".
+            </li>
+            <li>
+              <span className="font-semibold text-foreground">Interview Structure.</span>{" "}
+              How many rounds, what each round covers, and what the format looks like (case study vs.
+              whiteboard vs. take-home). This metadata is surfaced in the company selector so candidates
+              know what they're preparing for.
+            </li>
+          </ul>
+          <p>
+            When a highly-weighted dimension scores low, the evaluator flags it prominently in the bar
+            assessment reason. When a low-weight dimension scores low, it's noted but doesn't
+            tank the overall bar assessment as harshly.
           </p>
           <p>
             <span className="font-semibold text-foreground">Why a curated list of 15 and not free
@@ -117,152 +178,147 @@ const Method = () => {
             </li>
             <li>
               <span className="font-semibold text-foreground">Quality bar.</span> Every company in
-              the list has been hand-curated. Adding a 16th means writing the context, the role
-              expectations, and the sample questions properly. This is a quality signal, not a
-              quantity signal. Competitors with 3000+ questions have noise; this has signal.
+              the list has been hand-curated with dimension weights, hiring bars, and interview
+              structure. Adding a 16th means writing all of that properly. This is a quality signal,
+              not a quantity signal.
             </li>
           </ul>
         </Section>
 
-        <Section number="03" title="Why one follow-up probe (and not multi-turn)">
+        <Section number="04" title="Session memory: localStorage as a design decision">
           <p>
-            Real PM interviews have probes. The interviewer hears your answer and pokes at the
-            weakest part: "What about users who don't have smartphones?", "How would you measure
-            that?", "What's the trade-off you're making?" No async AI tool does this.
+            Every session is persisted in the browser's localStorage. The profile system tracks:
           </p>
+          <ul className="mt-2 space-y-3 pl-1">
+            <li>
+              <span className="font-semibold text-foreground">Dimension averages.</span> Across
+              all sessions, which dimensions are your weakest and strongest.
+            </li>
+            <li>
+              <span className="font-semibold text-foreground">Score trends.</span> How your
+              performance on each dimension is moving over time.
+            </li>
+            <li>
+              <span className="font-semibold text-foreground">Drill suggestions.</span> Your
+              weakest dimension is automatically suggested when entering Drill mode.
+            </li>
+            <li>
+              <span className="font-semibold text-foreground">Calibration reports.</span> After 3+
+              sessions, the Profile page generates a summary with actionable recommendations.
+            </li>
+          </ul>
           <p>
-            The probe here is generated based on your weakest scoring dimension. If you scored low
-            on Metric Definition, the probe will press you on metrics. If you scored low on
-            Prioritization Rationale, it will ask you to justify a choice you breezed past.
-          </p>
-          <p>
-            <span className="font-semibold text-foreground">Why one probe and not a multi-turn back-and-forth?</span>{" "}
+            <span className="font-semibold text-foreground">Why localStorage and not a database?</span>{" "}
             Three reasons:
           </p>
           <ul className="mt-2 space-y-3 pl-1">
             <li>
-              <span className="font-semibold text-foreground">One probe is enough to differentiate.</span>{" "}
-              No competitor at any price point does this in an async, structured flow. A single
-              follow-up beats zero.
+              <span className="font-semibold text-foreground">Zero friction.</span> No signup wall.
+              The competitor is ChatGPT — instant, no auth. Adding a login screen before the first
+              session loses on the only axis where this tool beats ChatGPT.
             </li>
             <li>
-              <span className="font-semibold text-foreground">Multi-turn drifts.</span> By turn
-              three, the model has lost the rubric and is generating generic conversation. The
-              quality of the second probe is much lower than the first.
+              <span className="font-semibold text-foreground">Privacy by default.</span> Session
+              data never leaves the browser. No server knows what you scored or which companies
+              you're targeting.
             </li>
             <li>
-              <span className="font-semibold text-foreground">Habit beats depth.</span> A 10-minute
-              session you do three times a week beats a 45-minute session you do once. Single probe
-              keeps the loop tight.
+              <span className="font-semibold text-foreground">Ship now, optimize later.</span>{" "}
+              If this scales, the migration path is clear: add optional auth, sync localStorage to
+              a database, enable cross-device access. The data model is already structured for this.
             </li>
           </ul>
         </Section>
 
-        <Section number="04" title="What's scoped out, and why">
+        <Section number="05" title="The three modes: why not just one flow">
           <p>
-            More features were considered and explicitly cut. Each cut is documented because the
-            decisions are the case study.
-          </p>
-          <ul className="mt-2 space-y-4 pl-1">
-            <li>
-              <span className="font-semibold text-foreground">No accounts, no history, no
-              dashboard.</span>{" "}
-              Habit formation requires zero friction at session start. The competitor here is
-              ChatGPT — instant, no signup. Adding auth before the first session loses on the only
-              axis where this beats ChatGPT.
-            </li>
-            <li>
-              <span className="font-semibold text-foreground">No voice or live mock.</span> Two
-              reasons. First, real PM interviews are conversational but the cognitive evaluation is
-              text-equivalent — voice adds production cost without rubric improvement. Second,
-              latency in voice models still kills the "real interview" feeling more than written
-              answers do.
-            </li>
-            <li>
-              <span className="font-semibold text-foreground">No huge question bank.</span>{" "}
-              PMExercises has 3000+ questions. That's a quantity signal that competes on terrain
-              this tool can't win and doesn't need to. Question generation per session keeps the
-              experience fresh without the editorial overhead of a static bank.
-            </li>
-            <li>
-              <span className="font-semibold text-foreground">No leaderboards or streaks.</span>{" "}
-              Gamification works for habit formation but it's noise here. The honest signal is your
-              weakest dimension across recent sessions, and right now that's left to the user to
-              notice. If accounts existed, this is the one history feature worth adding.
-            </li>
-          </ul>
-        </Section>
-
-        <Section number="05" title="What 'Pro' would be, and why I'd cut it that way">
-          <p>
-            This is a portfolio project. There is no Pro tier and no paywall. But the right
-            question for any product is{" "}
-            <span className="italic text-foreground">"if you were going to monetize this, how would
-            you cut it?"</span>{" "}
-            Here's that thinking.
-          </p>
-          <p>
-            <span className="font-semibold text-foreground">Why pure B2C freemium fails for
-            interview prep:</span> retention drops to zero the day a candidate signs an offer.
-            Lifetime is 4-12 weeks. Churn is the goal of the product. CAC for "PM candidate" is
-            high. Exponent and IGotAnOffer both diversified away from pure subscription because the
-            unit economics don't work as B2C-only.
-          </p>
-          <p>
-            <span className="font-semibold text-foreground">What I'd actually build:</span>
+            V1 had a single linear flow: pick type → pick company → answer → score → probe.
+            User testing revealed three problems:
           </p>
           <ul className="mt-2 space-y-3 pl-1">
             <li>
-              <span className="font-semibold text-foreground">One-time $9 calibration product.</span>{" "}
-              Five sessions, detailed report, weakness trend across sessions. Matches Karan's
-              persona — willing to pay for an honest read once, before applying.
+              <span className="font-semibold text-foreground">The 15-minute commitment was too high
+              for a quick check.</span> Candidates who just wanted to "see where I am" bounced
+              because they felt locked into a full session.
             </li>
             <li>
-              <span className="font-semibold text-foreground">B2B to bootcamps and MBA career
-              services.</span> Per-seat licensing. They already have rubrics and want async tools
-              for their cohorts. Higher ACV, longer LTV, slower sales cycle.
+              <span className="font-semibold text-foreground">No way to target a specific
+              weakness.</span> If you know your Metric Definition is weak, you had to play through
+              the full flow and hope the question tested that dimension.
             </li>
             <li>
-              <span className="font-semibold text-foreground">White-label to existing coaching
-              firms.</span> Exponent and IGotAnOffer already have the audience and the trust. The
-              moat for a new entrant is the rubric, not the audience.
+              <span className="font-semibold text-foreground">No progression arc.</span> Every
+              session felt the same. No connection between Tuesday's session and Thursday's.
             </li>
           </ul>
           <p>
-            What I would <span className="italic">not</span> build: a generic Free vs Pro tier with
-            session caps. The cap directly murders Riya's habit-formation use case (2-3 practice
-            sessions per week), and Riya is the user with the longest LTV.
+            The three modes solve these by offering different time commitments and learning
+            objectives, while the shared session history creates the longitudinal arc.
           </p>
         </Section>
 
-        <Section number="06" title="Who this is built for">
+        <Section number="06" title="The adaptive probe system">
+          <p>
+            Real PM interviews have probes. The interviewer hears your answer and pokes at the
+            weakest part: "What about users who don't have smartphones?", "How would you measure
+            that?", "What's the trade-off you're making?"
+          </p>
+          <p>
+            <span className="font-semibold text-foreground">Calibrate mode</span> gives you one
+            probe based on your weakest scoring dimension. <span className="font-semibold text-foreground">
+            Mock mode</span> generates up to three adaptive probes, where each subsequent probe
+            is informed by your response to the previous one.
+          </p>
+          <p>
+            The probe generator detects two patterns:
+          </p>
+          <ul className="mt-2 space-y-3 pl-1">
+            <li>
+              <span className="font-semibold text-foreground">Isolated weakness (probeType: "isolated").</span>{" "}
+              One dimension is clearly the lowest (≥1 point below the next). The probe targets
+              that specific weakness.
+            </li>
+            <li>
+              <span className="font-semibold text-foreground">Thematic pattern (probeType: "thematic").</span>{" "}
+              Multiple weaknesses cluster into a behavioral pattern. The system identifies three
+              archetypes: "solution-first" (skipped problem framing), "list-maker" (listed without
+              prioritizing), "vague-goal-setter" (no concrete metrics).
+            </li>
+          </ul>
+        </Section>
+
+        <Section number="07" title="Who this is built for">
           <p>
             Two primary personas drove every design decision:
           </p>
           <ul className="mt-2 space-y-4 pl-1">
             <li>
               <span className="font-semibold text-foreground">Riya — the Repeat Practitioner.</span>{" "}
-              APM interviewing at 6-8 companies. Wants short evening sessions on mobile, calibrated
-              to her target companies. The reason there's no signup wall.
+              APM interviewing at 6-8 companies. Uses Calibrate for baseline, Drill for weakness
+              targeting, and Mock before final-round prep. Wants short sessions on mobile,
+              calibrated to her target companies. The reason there's no signup wall and Drill
+              mode exists.
             </li>
             <li>
               <span className="font-semibold text-foreground">Karan — the Calibration Seeker.</span>{" "}
               SWE transitioning to PM. Wants one honest read on whether his thinking meets bar.
-              Every other AI tool tells him 4/5 with generic feedback. The reason the rubric is
-              honest by design and the probe asks the hard follow-up.
+              Uses Calibrate 3 times to get a calibration report, then decides whether to keep
+              practicing or pivot his strategy. The reason the bar assessment exists and the
+              rubric is honest by design.
             </li>
           </ul>
           <p>
-            Anyone else using the tool is welcome, but design decisions break ties in favor of these
-            two.
+            Both personas are India-based, which is why the company list skews India-first (10
+            India tech, 5 global with India hiring). The interview culture, hiring bars, and
+            dimension weights reflect Indian PM interview patterns specifically.
           </p>
         </Section>
 
-        <Section number="07" title="Stack and tradeoffs">
+        <Section number="08" title="Stack and tradeoffs">
           <p>
             Vite + React + TypeScript on the frontend, Tailwind and shadcn/ui for the design system,
-            Supabase Edge Functions for the LLM calls. Two functions: one for question generation,
-            one for scoring + probe.
+            Supabase Edge Functions for the LLM calls. Three functional endpoints: question generation,
+            scoring + probe, and follow-up probe generation for Mock mode.
           </p>
           <p>
             <span className="font-semibold text-foreground">Why not Next.js?</span> No SSR or SEO
@@ -275,10 +331,47 @@ const Method = () => {
             needed.
           </p>
           <p>
-            <span className="font-semibold text-foreground">Why no database (yet)?</span> Without
-            history or accounts, there is nothing to persist. Adding a database before there's a
-            feature that needs it is over-engineering.
+            <span className="font-semibold text-foreground">Why localStorage over a database?</span>{" "}
+            Session memory requires zero friction at entry. Adding auth before the first session
+            loses on the only axis where this beats ChatGPT. The data model is structured to
+            migrate to a database if optional auth is added later.
           </p>
+        </Section>
+
+        <Section number="09" title="What 'Pro' would be, and why I'd cut it that way">
+          <p>
+            This is a portfolio project. There is no Pro tier and no paywall. But the right
+            question for any product is{" "}
+            <span className="italic text-foreground">"if you were going to monetize this, how would
+            you cut it?"</span>{" "}
+            Here's that thinking.
+          </p>
+          <p>
+            <span className="font-semibold text-foreground">Why pure B2C freemium fails for
+            interview prep:</span> retention drops to zero the day a candidate signs an offer.
+            Lifetime is 4-12 weeks. Churn is the goal of the product. CAC for "PM candidate" is
+            high.
+          </p>
+          <p>
+            <span className="font-semibold text-foreground">What I'd actually build:</span>
+          </p>
+          <ul className="mt-2 space-y-3 pl-1">
+            <li>
+              <span className="font-semibold text-foreground">One-time ₹799 calibration report.</span>{" "}
+              Five sessions, detailed diagnostic report with dimension trends and company-specific
+              bar assessment. Matches Karan's persona — willing to pay for an honest read once.
+            </li>
+            <li>
+              <span className="font-semibold text-foreground">B2B to bootcamps and MBA career
+              services.</span> Per-seat licensing. They already have rubrics and want async tools
+              for their cohorts. Higher ACV, longer LTV, slower sales cycle.
+            </li>
+            <li>
+              <span className="font-semibold text-foreground">White-label to existing coaching
+              firms.</span> The moat is the company intelligence layer and the diagnostic scoring
+              calibration, not the audience.
+            </li>
+          </ul>
         </Section>
       </article>
 
@@ -289,7 +382,8 @@ const Method = () => {
             Try a session.
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-muted-foreground">
-            Reading the methodology helps. Trying it once helps more.
+            Reading the methodology helps. Trying it once helps more. Three sessions unlock
+            your calibration report.
           </p>
           <Button
             asChild
@@ -297,7 +391,7 @@ const Method = () => {
             className="mt-7 h-12 min-w-[220px] text-[15px] font-semibold shadow-soft transition-shadow hover:shadow-soft-md"
           >
             <Link to="/practice">
-              Start a session <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              Start calibrating <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </Link>
           </Button>
         </div>
